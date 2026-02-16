@@ -664,18 +664,18 @@
 	<script src="./js/MyMath.js"></script>
 	<script src="./js/script.js"></script>
 
-	<!-- Script đếm ngược và popup YouTube -->
+	<!-- Script đếm ngược và mở YouTube -->
 	<script>
 		(function () {
 			// Cấu hình
 			const COUNTDOWN_TIME = 45; // số giây đếm ngược
 			const YOUTUBE_VIDEO_ID = 'wJR5-GIOGDk'; // ID video YouTube
+			const YOUTUBE_URL = `https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`;
 
 			// Lấy các phần tử
 			const countdownTimer = document.getElementById('countdown-timer');
 			const youtubePopup = document.getElementById('youtube-popup');
 			const closePopupBtn = document.getElementById('close-popup');
-			const youtubeIframe = document.getElementById('youtube-iframe');
 			const youtubeThumbnail = document.getElementById('youtube-thumbnail');
 
 			let timeLeft = COUNTDOWN_TIME;
@@ -710,31 +710,24 @@
 				}, 100);
 			}
 
-			// Hàm load video khi click vào thumbnail
-			function loadVideo() {
-				// Ẩn thumbnail
-				youtubeThumbnail.style.display = 'none';
-				// Hiển thị và load iframe với autoplay
-				youtubeIframe.style.display = 'block';
-				youtubeIframe.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`;
+			// Hàm mở YouTube khi click vào thumbnail
+			function openYoutube() {
+				// Mở YouTube trong tab mới
+				window.open(YOUTUBE_URL, '_blank');
+				// Đóng popup
+				closePopup();
 			}
 
 			// Hàm đóng popup
 			function closePopup() {
 				youtubePopup.classList.remove('show');
-				// Dừng video và reset về thumbnail
-				setTimeout(function () {
-					youtubeIframe.src = '';
-					youtubeIframe.style.display = 'none';
-					youtubeThumbnail.style.display = 'block';
-				}, 300);
 			}
 
 			// Event listener cho nút đóng
 			closePopupBtn.addEventListener('click', closePopup);
 
-			// Event listener cho thumbnail
-			youtubeThumbnail.addEventListener('click', loadVideo);
+			// Event listener cho thumbnail - mở YouTube trong tab mới
+			youtubeThumbnail.addEventListener('click', openYoutube);
 
 			// Đóng popup khi click vào overlay
 			youtubePopup.addEventListener('click', function (e) {
